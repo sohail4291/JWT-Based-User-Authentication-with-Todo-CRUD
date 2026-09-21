@@ -1,0 +1,52 @@
+body {
+   background-color :beige;
+   margin : 5%;
+}
+
+
+
+#inputdata {
+  border : 3px solid green;
+  border-radius : 5px;
+  background-color :rgb(144, 174, 164);
+  display : flex;
+  justify-content : space-around;
+  padding : 5%;
+
+}
+
+#inputdata input {
+   min-height : 3em;
+   border-radius : 5px;
+   background-color :rgb(255, 248, 248);
+
+}
+
+#inputdata button {
+    min-height : 3em;
+   border-radius : 5px;
+   background-color :rgb(255, 248, 248);
+}
+
+#list {
+   display : flex;
+   flex-wrap : wrap;
+   background-color :azure;
+   border : 5px solid rgb(169, 204, 169);
+   border-radius : 5px;
+   display : flex;
+   padding : 3em;
+   gap : 3em;
+   margin-top : 3em;
+
+   
+  
+
+
+}
+
+#todo{
+    border-radius : 2px black;
+    border : 2px solid black;
+    padding : 5%;
+}
