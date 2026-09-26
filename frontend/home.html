@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <title>Document</title>
+    <stylesheet href="index.css">
+    <link rel="stylesheet" href="../frontend/styles/index.css">
+</head>
+<body>
+    <div id="container">
+        <div id="inputdata">
+            <input type="text" id="title" placeholder="enter something..">
+            <input type="text" id="description" placeholder="description" >
+            <button id="addtodo" onclick="addtodo()">Add Todo</button>
+            
+        </div>
+
+        <div id="display">  </div>
+    </div>
+
+    <script>
+        async function addtodo(){
+            const title = document.getElementById("title").value;
+            const description = document.getElementById("description").value;
+            
+            const res = await axios.post("http://localhost:3000/add", {title,description});
+            
+            const div = document.createElement("div"); // create a new div element
+            div.classList.add("todo");
+            const titlediv = document.createElement("div");
+            titlediv.classList.add("todo-title");
+            titlediv.innerHTML = title;
+            const desc = document.createElement("p");
+            desc.classList.add("todo-description");
+            desc.textContent = description;
+           
+            
+
+            const button = document.createElement("button");
+            button.classList.add("edit-todo");
+            button.setAttribute("onclick","edittodo()");
+            button.textContent = "Edit";
+            div.appendChild(button);
+
+            const deletebutton = document.createElement("button");
+            deletebutton.classList.add("delete-todo");
+            deletebutton.setAttribute("onclick","deleteitem()");
+            deletebutton.textContent = "delete";
+            
+            div.appendChild(titlediv);
+            div.appendChild(desc);
+            div.appendChild(button);
+            div.appendChild(deletebutton);
+            
+            const display = document.getElementById("display");
+            display.appendChild(div);
+            //clear inputs 
+            document.getElementById("title").value = "";
+            document.getElementById("description").value = "";
+        }
+
+        async function gettodo(){
+            const res = await axios.get("http://localhost:3000/get");
+            const data = res.data; // response data from the server as an array 
+            console.log("data : ",data);
+
+            for(let i=0;i<data.length;i++){
+                const div = document.createElement("div"); // create a new div element
+                div.classList.add("todo");
+                const titlediv = document.createElement("div");
+                titlediv.classList.add("todo-title");
+                titlediv.innerHTML = data[i].title;
+                const desc = document.createElement("p");
+                desc.classList.add("todo-description");
+                desc.textContent = data[i].description;
+
+
+                const button = document.createElement("button");
+                button.classList.add("edit-todo");
+                button.setAttribute("onclick","edittodo()");
+                button.textContent = "Edit";
+
+                const deletebutton = document.createElement("button");
+                deletebutton.classList.add("delete-todo");
+                deletebutton.setAttribute("onclick","deleteitem()");
+                deletebutton.textContent = "delete";
+               
+                div.appendChild(titlediv);
+                div.appendChild(desc);
+                 div.appendChild(button);
+                 div.appendChild(deletebutton);
+                const display = document.getElementById("display");
+                display.appendChild(div);
+            }   
+        }
+        gettodo(); 
+
+        async function edittodo(){
+            const title = document.querySelector(".todo-title").textContent;
+            console.log("title : ",title);
+            const newDescription = prompt("Enter new description");
+            
+            const res = await axios.put(`http://localhost:3000/edit/${title}`, {description: newDescription});
+            console.log(res.data);
+            // update the description in the UI, what is the best way to do this?
+            document.getElementById("display").innerHTML = "";
+            gettodo();
+            
+        }
+       
+        async function deleteitem(){
+            const title = document.querySelector(".todo-title").textContent
+            const res = await axios.delete(`http://localhost:3000/delete/${title}`);
+            document.getElementById("display").innerHTML= "";
+            gettodo();
+        }
+        
+    </script>
+</body>
+</html>

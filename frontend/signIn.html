@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingIn</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="../frontend/styles/signup.css">
+    
+</head>
+<body>
+    <div class="header">
+    <h2> Welcome to signIn</h2>
+    <input type="text" id="username" placeholder="enter name" />
+    <input type="password" id="password" placeholder="password" />
+    <button onclick="signIn()">SignIn</button>
+    </div>
+
+    <script>
+        async function signIn(){
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const res = await axios.post("http://localhost:3000/signIn", {
+                username,password
+            })
+             
+            <!-- localStorage.setItem("token", res.data.token); -->
+            console.log("user created");
+            if(res.data["token-cookie"]){
+                window.location = "./frontend/home.html";
+            }
+            else{
+                window.alert("invalid credentials.")
+            }
+            
+        }
+
+    </script>
+</body>
+</html>

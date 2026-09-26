@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SingUp</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel ="stylesheet" href="../frontend/styles/signup.css">
+    
+
+</head>
+<body>
+    <div class="header">
+    <h2> Welcome to signup</h2>
+    <input type="text" id="username" placeholder="enter name" />
+    <input type="password" id="password" placeholder="password" />
+    <button onclick="signUp()">SignUp</button>
+    <button onclick="window.location = '/signIn'">SignIn</button>
+    </div>
+
+    <script>
+        async function signUp(){
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const res = await axios.post("http://localhost:3000/signUp", {
+                username,password
+            });
+            console.log(res.data);
+            if(res.data.message === "user created"){
+                window.location = "./frontend/signIn"
+            }
+            else{
+                window.alert("user already exist");
+            }
+        }
+
+    </script>
+</body>
+</html>

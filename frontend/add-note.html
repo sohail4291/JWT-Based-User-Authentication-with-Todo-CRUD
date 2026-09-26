@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addnote</title>
+</head>
+<body>
+    <div>
+        <input type="text" id="title" placehoder="heading" />
+        <input type="text" id="description" placeholder="description" />
+        <button onclick="addnote()">Add</button>
+    </div>
+    <script>
+        
+        async function addnote(){
+            const title=document.getElementById("title").value;
+            const description =document.getElementById("description").value;
+            const response = await axios.post("http://localhost:3000/add",{ title, description},{ headers : { token : token}});
+        }
+    </script>
+    
+</body>
+</html>
